@@ -78,4 +78,11 @@ public class SuperHeroController {
     public int getIndiceAtual() {
         return heroManager.getCurrentIndex();
     }
+
+    public void seedHerois() {
+        adicionarHeroi("Homem-Aranha", "Herói da vizinhança", "Sentido Aranha, Agilidade", "Marvel", "Trepa paredes", "src/spiderman.png", "C:\\Users\\LabSC_01\\Videos\\Spider-Man_Theme.mp4");
+        adicionarHeroi("Batman", "O Cavaleiro das Trevas", "Inteligência, Artes Marciais", "DC", "Detective", "src/batman.png", "batman.mp4");
+        adicionarHeroi("Mulher-Maravilha", "Princesa Amazona", "Força, Agilidade", "DC", "Laço da Verdade", "src/wonderwoman.png", "wonderwoman.mp4");
+        adicionarHeroi("Superman", "Homem de Aço", "Super força, Voo", "DC", "Visão de Raio-X", "src/superman.png", "superman.mp4");
+    }
 }
