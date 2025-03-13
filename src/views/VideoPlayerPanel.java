@@ -5,9 +5,12 @@ import java.io.File;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.paint.Color;
+
 import javax.swing.JPanel;
 
 public class VideoPlayerPanel extends JPanel {
@@ -25,7 +28,6 @@ public class VideoPlayerPanel extends JPanel {
     private void initFX(String videoPath) {
         File file = new File(videoPath);
         if (!file.exists()) {
-            System.out.println("Arquivo não encontrado: " + videoPath);
             return;
         }
 
@@ -34,7 +36,11 @@ public class VideoPlayerPanel extends JPanel {
         MediaView mediaView = new MediaView(mediaPlayer);
         mediaView.setPreserveRatio(true);
 
-        Scene scene = new Scene(new javafx.scene.layout.StackPane(mediaView));
+        StackPane root = new StackPane(mediaView);
+        root.setStyle("-fx-background-color: #2D2D2D;");
+
+//        Scene scene = new Scene(new javafx.scene.layout.StackPane(mediaView));
+        Scene scene = new Scene(root, Color.BLACK);
         jfxPanel.setScene(scene);
 
         mediaView.fitWidthProperty().bind(scene.widthProperty());

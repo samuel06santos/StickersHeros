@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import javafx.embed.swing.JFXPanel;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -34,7 +35,7 @@ public class SuperHeroView extends JFrame {
 
     public SuperHeroView() {
         controller = new SuperHeroController();
-        controller.seedHerois();
+//        controller.seedHerois();
 
         setTitle("Stickers Heros");
         setSize(1080, 720);
@@ -60,6 +61,7 @@ public class SuperHeroView extends JFrame {
         listHerois.addListSelectionListener(e -> carregarHeroiSelecionado());
         listHerois.setBackground(backgroundColor);
         listHerois.setForeground(foregroundColor);
+        listHerois.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
         // Adicionando o JList a um JScrollPane
         JScrollPane scrollPane = new JScrollPane(listHerois);
@@ -73,7 +75,7 @@ public class SuperHeroView extends JFrame {
         // Inicializando os campos de texto do formulário
         txtNome = new JTextField();
         txtNome.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        txtNome.setPreferredSize(new Dimension(150, 25));
+        txtNome.setPreferredSize(new Dimension(150, 30));
         txtNome.setBackground(backgroundColor);
         txtNome.setForeground(foregroundColor);
         txtNome.setCaretColor(foregroundColor);
@@ -84,7 +86,7 @@ public class SuperHeroView extends JFrame {
 
         txtGrupo = new JTextField();
         txtGrupo.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        txtGrupo.setPreferredSize(new Dimension(150, 25));
+        txtGrupo.setPreferredSize(new Dimension(150, 30));
         txtGrupo.setBackground(backgroundColor);
         txtGrupo.setForeground(foregroundColor);
         txtGrupo.setCaretColor(foregroundColor);
@@ -142,6 +144,8 @@ public class SuperHeroView extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 0;
         JLabel lblNome = new JLabel("Nome:");
+        lblNome.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
         lblNome.setForeground(foregroundColor);
         panelFormulario.add(lblNome, gbc);
         gbc.gridx = 1;
@@ -150,6 +154,7 @@ public class SuperHeroView extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 1;
         JLabel lblGrupo = new JLabel("Grupo:");
+        lblGrupo.setFont(new Font("Tahoma", Font.PLAIN, 18));
         lblGrupo.setForeground(foregroundColor);
         panelFormulario.add(lblGrupo, gbc);
         gbc.gridx = 1;
@@ -158,6 +163,7 @@ public class SuperHeroView extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 2;
         JLabel lblDescricao = new JLabel("Descrição:");
+        lblDescricao.setFont(new Font("Tahoma", Font.PLAIN, 18));
         lblDescricao.setForeground(foregroundColor);
         panelFormulario.add(lblDescricao, gbc);
         gbc.gridx = 1;
@@ -166,6 +172,7 @@ public class SuperHeroView extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 3;
         JLabel lblPoderes = new JLabel("Poderes:");
+        lblPoderes.setFont(new Font("Tahoma", Font.PLAIN, 18));
         lblPoderes.setForeground(foregroundColor);
         panelFormulario.add(lblPoderes, gbc);
         gbc.gridx = 1;
@@ -174,6 +181,7 @@ public class SuperHeroView extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 4;
         JLabel lblHabilidades = new JLabel("Habilidades:");
+        lblHabilidades.setFont(new Font("Tahoma", Font.PLAIN, 18));
         lblHabilidades.setForeground(foregroundColor);
         panelFormulario.add(lblHabilidades, gbc);
         gbc.gridx = 1;
@@ -185,6 +193,7 @@ public class SuperHeroView extends JFrame {
         panelImagem.setPreferredSize(new Dimension(300, 300));
         panelImagem.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(borderColor), "Imagem do Herói", 0, 0, null, foregroundColor));
         panelImagem.setBackground(backgroundColor);
+
         lblImagem = new JLabel("Nenhuma imagem selecionada", SwingConstants.CENTER);
         lblImagem.setPreferredSize(new Dimension(300, 300));
         lblImagem.setBorder(BorderFactory.createLineBorder(borderColor));
@@ -235,8 +244,13 @@ public class SuperHeroView extends JFrame {
 
         // Dividindo os painéis de imagem e vídeo
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelImagem, panelVideo);
-        splitPane.setBackground(backgroundColor);
         splitPane.setResizeWeight(0.5);
+        splitPane.setBackground(backgroundColor);
+        splitPane.setDividerSize(10);
+
+        BasicSplitPaneDivider divider = (BasicSplitPaneDivider) splitPane.getComponent(2);
+        divider.setBackground(backgroundColor);
+
 
 
         // Painel de ações (botões)
@@ -301,6 +315,7 @@ public class SuperHeroView extends JFrame {
     /// -----------------
 
     // Carrega os dados do herói selecionado na lista
+    // Atualiza os campos de texto, a imagem do herói e o vídeo
     private void carregarHeroiSelecionado() {
         int index = listHerois.getSelectedIndex();
         if (index != -1) {
@@ -320,14 +335,20 @@ public class SuperHeroView extends JFrame {
             }
 
             if (!heroi.getVideoPath().isEmpty()) {
+                stopVideo();
                 playVideo(heroi.getVideoPath());
             } else {
                 stopVideo();
+                panelVideo.remove(videoPlayerPanel);
+                panelVideo.add(lblVideo, BorderLayout.CENTER, 0);
+                panelVideo.revalidate();
+                panelVideo.repaint();
             }
         }
     }
 
     // Carrega os dados do herói atual
+    // Atualiza a lista de heróis e o vídeo
     private void carregarHeroiAtual() {
         listModel.clear();
         for (SuperHero heroi : controller.listarTodosHerois()) {
@@ -337,6 +358,7 @@ public class SuperHeroView extends JFrame {
             listHerois.setSelectedIndex(controller.getIndiceAtual());
             SuperHero heroiAtual = controller.getHeroiAtual();
             if (!heroiAtual.getVideoPath().isEmpty()) {
+                stopVideo();
                 playVideo(heroiAtual.getVideoPath());
             } else {
                 stopVideo();
@@ -359,9 +381,9 @@ public class SuperHeroView extends JFrame {
         btnAdicionar.addActionListener(e -> {
             controller.adicionarHeroi(
                     txtNome.getText(),
+                    txtGrupo.getText(),
                     txtDescricao.getText(),
                     txtPoderes.getText(),
-                    txtGrupo.getText(),
                     txtHabilidades.getText(),
                     imagemSelecionada != null ? imagemSelecionada.getAbsolutePath() : "",
                     videoSelecionado != null ? videoSelecionado.getAbsolutePath() : ""
@@ -382,9 +404,9 @@ public class SuperHeroView extends JFrame {
             controller.atualizarHeroi(
                     controller.getIndiceAtual(),
                     txtNome.getText(),
+                    txtGrupo.getText(),
                     txtDescricao.getText(),
                     txtPoderes.getText(),
-                    txtGrupo.getText(),
                     txtHabilidades.getText(),
                     imagemSelecionada != null ? imagemSelecionada.getAbsolutePath() : "",
                     videoSelecionado != null ? videoSelecionado.getAbsolutePath() : ""
@@ -433,7 +455,7 @@ public class SuperHeroView extends JFrame {
             lblVideo.setText("Arquivo não encontrado: " + videoPath);
             lblVideo.setHorizontalAlignment(SwingConstants.CENTER);
             lblVideo.setVerticalAlignment(SwingConstants.CENTER);
-            videoPlayerPanel.stopVideo();
+            stopVideo();
             panelVideo.remove(videoPlayerPanel);
             panelVideo.add(lblVideo, BorderLayout.CENTER, 0);
             panelVideo.revalidate();

@@ -2,31 +2,32 @@ package models;
 
 public class SuperHero {
     private String nome;
+    private String grupo;
     private String descricao;
     private String poderes;
-    private String grupo;
     private String habilidades;
     private String imagemPath;
     private String videoPath;
 
     public SuperHero(
         String nome,
+        String grupo,
         String descricao,
         String poderes,
-        String grupo,
         String habilidades,
         String imagemPath,
         String videoPath
     ) {
         this.nome = nome;
+        this.grupo = grupo;
         this.descricao = descricao;
         this.poderes = poderes;
-        this.grupo = grupo;
         this.habilidades = habilidades;
         this.imagemPath = imagemPath;
         this.videoPath = videoPath;
     }
 
+    // Getters and setters
     public String getNome() {
         return nome;
     }
@@ -87,9 +88,9 @@ public class SuperHero {
     public String toString() {
         return "SuperHero{" +
             "nome='" + nome + '\'' +
+            ", grupo='" + grupo + '\'' +
             ", descricao='" + descricao + '\'' +
             ", poderes='" + poderes + '\'' +
-            ", grupo='" + grupo + '\'' +
             ", habilidades='" + habilidades + '\'' +
             ", imagemPath='" + imagemPath + '\'' +
             ", videoPath='" + videoPath + '\'' +
