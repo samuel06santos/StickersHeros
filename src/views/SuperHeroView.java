@@ -504,10 +504,4 @@ public class SuperHeroView extends JFrame {
             @Override public void keyReleased(KeyEvent e) {}
         });
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-         new SuperHeroView();
-        });
-    }
 }
